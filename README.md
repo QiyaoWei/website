@@ -1,8 +1,23 @@
-## Welcome to GitHub Pages
+### Qiyao Wei
 
-You can use the [editor on GitHub](https://github.com/QiyaoWei/wqy.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Hi there! You found my webpage! This is Qiyao (chi-yao), an undergrad inspired by the advances and accomplishments of Artificial Intelligence. My short-term research interest is to make AI more about theory and justification, not about network design and hyperparameter tuning. My long-term goal is to crack the code of human intelligence, or to achieve human-level intelligence in our machines.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Projects
+
+## Favorite Readings
+This is where I put some of the articles or papers I read, and will recommend to others. Specifically, they will either convey some inspiration that I could not have summarized, or illustrated a theory very clearly
+
+- Ever wondered where all the one-liners in Stochastic Variational Inference came from?
+- In my opinion, the epitome of combining theory and practice: how machine learning should be done
+
+## Favorite quotes
+This is where I record some of the best (ie pithy but elucidating) words I came across.
+
+- "Why does the wind blow?" "Because the leaves move" ---Yann LeCun interview with Lex Fridman
+- ETJaynes
+
+## Miscellaneous
+There are also beautiful words that are not AI related.
 
 ### Markdown
 
