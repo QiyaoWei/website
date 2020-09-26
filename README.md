@@ -1,6 +1,6 @@
 ### Qiyao Wei
 
-![Image]("/Users/qiyaowei/Documents/ECE367/PS01/PS01_dataSet/f1approx.png")
+![Link]("https://github.com/QiyaoWei/wqy.github.io/blob/master/me.jpg")
 
 Hi there! You found my webpage! This is Qiyao (chi-yao), a University of Toronto undergrad inspired by the advances and accomplishments of Artificial Intelligence. My short-term research interest is to make AI more about theory and justification, rather than network design and hyperparameter tuning. My long-term goal is to crack the code of human intelligence, or to achieve human-level intelligence in our machines.
 
@@ -12,7 +12,7 @@ Hi there! You found my webpage! This is Qiyao (chi-yao), a University of Toronto
 ## Favorite Readings
 This is where I put some of the articles or papers I read, and will recommend to others. Specifically, they will either convey some inspiration that I could not have summarized better, or illustrated a theory very clearly
 
-- Ever wondered where all the one-liners in Stochastic Variational Inference came from?
+- Ever wondered where all the reparametrization in Stochastic Variational Inference came from? http://blog.shakirm.com/2015/10/machine-learning-trick-of-the-day-4-reparameterisation-tricks/
 - In my opinion, the epitome of combining theory and practice: how machine learning should be done. Variational Bayes (https://arxiv.org/abs/1312.6114)
 
 ## Favorite quotes
