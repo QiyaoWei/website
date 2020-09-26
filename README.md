@@ -1,5 +1,7 @@
 ### Qiyao Wei
 
+My website is https://qiyaowei.github.io/wqy.github.io/
+
 ![Link]("https://github.com/QiyaoWei/wqy.github.io/blob/master/me.jpg")
 
 Hi there! You found my webpage! This is Qiyao (chi-yao), a University of Toronto undergrad inspired by the advances and accomplishments of Artificial Intelligence. My short-term research interest is to make AI more about theory and justification, rather than network design and hyperparameter tuning. My long-term goal is to crack the code of human intelligence, or to achieve human-level intelligence in our machines.
