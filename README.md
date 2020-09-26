@@ -1,23 +1,30 @@
 ### Qiyao Wei
 
-Hi there! You found my webpage! This is Qiyao (chi-yao), an undergrad inspired by the advances and accomplishments of Artificial Intelligence. My short-term research interest is to make AI more about theory and justification, not about network design and hyperparameter tuning. My long-term goal is to crack the code of human intelligence, or to achieve human-level intelligence in our machines.
+![Image]("/Users/qiyaowei/Documents/ECE367/PS01/PS01_dataSet/f1approx.png")
 
-## Projects
+Hi there! You found my webpage! This is Qiyao (chi-yao), a University of Toronto undergrad inspired by the advances and accomplishments of Artificial Intelligence. My short-term research interest is to make AI more about theory and justification, rather than network design and hyperparameter tuning. My long-term goal is to crack the code of human intelligence, or to achieve human-level intelligence in our machines.
+
+## Publications
+
+- Here is a technical report on mirror descent, Bregman Divergences, and an analysis on Krichene and Bartlett (2017)
+- Epidemic Control with Reinforcement Learning, only single-node for now
 
 ## Favorite Readings
-This is where I put some of the articles or papers I read, and will recommend to others. Specifically, they will either convey some inspiration that I could not have summarized, or illustrated a theory very clearly
+This is where I put some of the articles or papers I read, and will recommend to others. Specifically, they will either convey some inspiration that I could not have summarized better, or illustrated a theory very clearly
 
 - Ever wondered where all the one-liners in Stochastic Variational Inference came from?
-- In my opinion, the epitome of combining theory and practice: how machine learning should be done
+- In my opinion, the epitome of combining theory and practice: how machine learning should be done. Variational Bayes (https://arxiv.org/abs/1312.6114)
 
 ## Favorite quotes
-This is where I record some of the best (ie pithy but elucidating) words I came across.
+This is where I record some of the best (i.e. pithy but elucidating) words I came across. For a total stranger, they will require context to make sense. I always welcome discussions of stuff like this.
 
 - "Why does the wind blow?" "Because the leaves move" ---Yann LeCun interview with Lex Fridman
-- ETJaynes
+- E.T.Jaynes page 103 "how we solve a problem when it becomes to difficult"
 
 ## Miscellaneous
 There are also beautiful words that are not AI related.
+
+- The Great Gatsby and his "extraordinary gift of hope"
 
 ### Markdown
 
