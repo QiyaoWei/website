@@ -2,8 +2,7 @@
 
 My website is https://qiyaowei.github.io/wqy.github.io/
 
-![Image]("https://github.com/QiyaoWei/wqy.github.io/blob/master/me.jpg")
-![Image]("https://www.google.com/search?q=weiqiyao&sxsrf=ALeKk01iE3jQZgOiDnno_uOoej-Qyrr-Wg:1601123371355&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi23Kmu6YbsAhVKQd4KHW9rAjMQ_AUoAXoECAsQAw&cshid=1601123391369350&biw=1440&bih=735#imgrc=Mv_L_u204HT1wM")
+![Image](me.jpg)
 
 Hi there! You found my webpage! This is Qiyao (chi-yao), a University of Toronto undergrad inspired by the advances and accomplishments of Artificial Intelligence. My short-term research interest is to make AI more about theory and justification, rather than network design and hyperparameter tuning. My long-term goal is to crack the code of human intelligence, or to achieve human-level intelligence in our machines.
 
