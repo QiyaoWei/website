@@ -1,6 +1,7 @@
 ### Qiyao Wei
 
 My website is https://qiyaowei.github.io/wqy.github.io/
+Reach me at q.wei@mail.utoronto.ca
 
 ![Image](me.jpg)
 
