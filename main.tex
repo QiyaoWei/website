@@ -1,0 +1,183 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{bbm}
+\usepackage[utf8]{inputenc}
+\usepackage[dvipsnames]{xcolor}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\title{Technical Report on Mirror Descent, Bregman Divergence, and Their ODE Formulations}
+\author{Qiyao Wei}
+\date{September 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Vanilla Gradient Descent and its Convergence Rate} (\cite{zhang2019mirror})
+
+%Gradient descent provably converges in $O(\frac{1}{\epsilon^2})$ to an $\epsilon$-approximate solution. This comment in the paper is only confusing in terms of convergence analysis. We stick to using the number of steps to bound the error between true optimum value and approximated optimum value, as our convergence result.
+Throughout this report we consider a convex function $f:  \mathbb{R}^{n}\mapsto \mathbb{R}$, and assume that it is differentiable and L-Lipschitz, i.e. $\|\nabla f(x)\| \leq L$. It is quite natural to use gradient descent under such formulation.\\
+
+If we let $x^{*} = \arg\min f(x)}$, and start with $\|x_{0} - x^{*}\| \leq d$, then we would choose gradient step size $\eta_{t} = \frac{d}{L\sqrt(t)}$, and do $x_{t+1} = x_{t} - \eta_{t}*\nabla f(x_{t})$. The convergence rate for vanilla gradient descent is as follows.\\
+
+Theorem 1.1 (Convergence of gradient descent) Let $x_{0}$ be such that $\|x_{0} - x^{*}\| \leq d$. The gradient descent algorithm for T iterations starting at $(x_{0}, f(x_{0}))$ satisfies (proof omitted, but interested readers can always find this simple proof in the original lecture notes (\cite{zhang2019mirror}))\\
+\begin{equation*}
+    f\left(\frac{1}{T} \sum_{i=0}^{T-1} x_{i}\right)-f\left(x^{*}\right) \leq \frac{R L}{\sqrt{T}}
+\end{equation*}
+
+%There is a very sneaky problem in gradient descent. I will talk about this only if I find more sources on this. I only see people saying that the function f lies in primal space and its gradients lie in linear subspace, but I have not found good intuitive arguments for that.\\
+
+\section{Bregman Divergence} (\cite{zhang2019mirror})
+
+The most natural way I found to go from the familiar squared Euclidian Distance (SED and it also has many other names like L2 norm) towards Bregman Divergences is to simply note that the Bregman Divergence is a natural extension from SED, capturing all the Lp norms and much more. We refer to this source (http://mark.reid.name/blog/meet-the-bregman-divergences.html) for an interactive demo.
+
+The Bregman Divergence is defined as
+\begin{equation*}
+    D_{\Phi}(a, b)=\Phi(a)-(\Phi(b)+\nabla \Phi(b) \cdot(a-b))
+\end{equation*}
+
+As an example, for $a \in {\mathbb{R}^{d}}$, the distance defined as $\Phi(a) = \frac{1}{2} \|a\|^{2}$ between a and b is the same as SED
+\begin{equation*}
+    \begin{aligned}
+    D_{\Phi}(a, b) &=\frac{1}{2}\|a\|^{2}-\left(\frac{1}{2}\|b\|^{2}+b \cdot(a-b)\right) \\
+    &=\frac{1}{2}\|a-b\|^{2}
+    \end{aligned}
+\end{equation*}
+
+
+
+Since the introduction part of the ODE paper touches on mirror descent in a more detailed way, I am omitting the last part of the lecture notes in (\cite{zhang2019mirror}). Moving on to the ODE paper will give us more than enough understanding of mirror descent.\\
+
+%Before we go: the lecture notes have a nice analysis of online learning with regret in terms of vanilla gradient descent and mirror descent, thereby demonstrating the superiority of mirror descent. Also, mirror descent in the lecture notes would converge under the same rate $O(\frac{1}{\sqrt(T)})$ if subject to the same conditions of gradient descent. The upcoming paper we will see analyses mirror descent to converge in $O(\frac{1}{T})$, and that is simply because Lyapunov arguments impose a stronger assumption.
+
+\section{Important Key Assumptions}
+
+The analysis in (\cite{zhang2019mirror}) tells us that vanilla gradient descent, as well as mirror descent under the same assumptions of "f being L-Lipschitz", converges in $\mathcal{O}(\frac{1}{t^{1/2}})$. This is only under the simplest assumption. The vast majority of literature in this field, including the paper we will be seeing next, requires a more strict assumption, namely that "f being L-smooth". We will explicitly define this assumption later in this report, but it is vital to draw comparison here emphasizing the difference between "f being L-Lipschitz", which restricts the gradient of f, and "f being L-smooth", which restricts the gradient of the gradient of f. "f being L-smooth" is also often referred to as "$\nabla$ f being Lipschitz", hence the confusion.
+
+\section{Vanilla Gradient Descent and Mirror Descent Under Lyapunov Arguments} (\cite{krichene2015accelerated})
+
+
+The fact that many machine learning and optimization problems can be characterized using ODE equations is well-known. As a simple example, vanilla gradient descent $x^{(k+1)}=x^{(k)}-s \nabla f\left(x^{(k)}\right)$ with a step size s can be rephrased as $\dot{X}(t)=-\nabla f(X(t))$ with discretization step s.\\
+
+
+%f moves in and out of the integral by Jensen's inequality, and the simple way to write convergence rate if obviously f(X) - fstar, but having an integral inside or outside the function simply represents an average value over the interval, which carries no significant meaning in this context
+In order to prove the convergence rate of vanilla gradient descent, we consider Lyapunov arguments. For example, for the simple ODE $\dot{X}(t)=-\nabla f(X(t))$, we define a Lyapunov function $V(X(t))=\frac{1}{2}\left\|X(t)-x^{\star}\right\|^{2}$. Then
+\begin{equation*}
+    \frac{d}{d t} V(X(t))=\left\langle\dot{X}(t), X(t)-x^{\star}\right\rangle \\
+    =\left\langle-\nabla f(X(t)), X(t)-x^{\star}\right\rangle \\ \leq-\left(f(X(t))-f^{\star}\right)
+    
+    \text{Where the final inequality is due to the convexity of f. The convergence we want to prove, expressed as}
+    
+    \begin{aligned}
+    f\left(\frac{1}{t} \int_{0}^{t} X(\tau) d \tau\right)-f^{\star} &\leq \frac{1}{t} \int_{0}^{t} f(X(\tau)) d \tau-f^{\star} \\
+    &\leq \frac{V\left(x_{0}\right)-V(X(t))}{t} \\
+    &\leq \frac{V\left(x_{0}\right)}{t} \\
+    &= \mathcal{O}(\frac{1}{t})
+    \end{aligned}
+    
+    \text{Where the second inequality is because integrating} \\
+    \begin{aligned}
+    \frac{d}{d t} V(X(t)) \leq-\left(f(X(t))-f^{\star}\right)
+    V(X(t))-V\left(x_{0}\right) \leq t f^{\star}-\int_{0}^{t} f(X(\tau)) d \tau \\
+    \end{aligned}
+\end{equation*}
+
+%"at equilibrium": convergence, minimizer, you get the meaning
+We now apply the logic above to the mirror descent formulation. For simplicity of notation, we use $\mathbb{E}$ to denote the primal space $\mathbb{R}^{n}$, and $\mathbb{E^{\star}}$ to denote the dual space. In this case, we replace the original Lyapunov $V(X(t))=\frac{1}{2}\left\|X(t)-x^{\star}\right\|^{2}$ by a function on the dual space $V(Z(t))=D_{\psi^{*}}\left(Z(t), z^{\star}\right)$, where $Z(t) \in \mathbb{E^{\star}}$ corresponds to $X(t) \in \mathbb{E}$, and $\psi^{*}$ is a convex function defined on $\mathbb{E^{\star}}$ such that $\nabla \psi^{*}: \mathbb{E^{\star}}\mapsto \mathbb{E}$. Just to reiterate, the Bregman Divergence is defined as $D_{\psi^{*}}\left(Z(t), z^{\star}\right) = \psi^{*}(Z(t))-(\psi^{*}(z^{\star})+\nabla \psi^{*}(z^{\star}) \cdot(Z(t)-z^{\star}))$.
+
+
+\begin{equation*}
+    \begin{aligned}
+    \frac{d}{d t} V(Z(t)) &=\frac{d}{d t} D_{\psi^{*}}\left(Z(t), z^{\star}\right)=\frac{d}{d t}\left(\psi^{*}(Z(t))-\psi^{*}\left(z^{\star}\right)-\left\langle\nabla \psi^{*}\left(z^{*}\right), Z(t)-z^{\star}\right\rangle\right) \\
+    &=\left\langle\nabla \psi^{*}(Z(t))-\nabla \psi^{*}\left(z^{\star}\right), \dot{Z}(t)\right\rangle=\left\langle X(t)-x^{\star}, \dot{Z}(t)\right\rangle
+    \end{aligned}
+\end{equation*}
+
+where the derivatives wrt t for $z^{\star}$ is of course zero. Therefore, if the dual variable $Z$ obeys the dynamics $\dot{Z}=-\nabla f(X),$ then
+$$
+\frac{d}{d t} V(Z(t))=-\left\langle\nabla f(X(t)), X(t)-x^{\star}\right\rangle \leq-\left(f(X(t))-f^{\star}\right)
+$$and by the same argument as before, $f\left(\frac{1}{t} \int_{0}^{t} X(\tau) d \tau\right)-f^{\star} \text { converges to } 0 \text { at a } \mathcal{O}(1 / t) \text { rate. }$. We summarize the mirror descent system with
+\begin{equation*}
+    \left\{\begin{array}{l}
+    X=\nabla \psi^{*}(Z) \\
+    \dot{Z}=-\nabla f(X) \\
+    X(0)=x_{0}, Z(0)=z_{0} \text { with } \nabla \psi^{*}\left(z_{0}\right)=x_{0}
+    \end{array}\right.
+\end{equation*}
+
+Just as a quick example, if we take $\psi^{*}(Z) = \frac{1}{2} \left\|z\right\|^{2}$, then $\nabla \psi^{*}(Z)$ is the identity, $X$ and $Z$ coincide, and we retrieve vanilla gradient descent.\\
+
+
+
+\section{Now the ODE Paper}
+
+Aside from the background in the previous section, the ODE paper also mentions Nesterov's accelerated method, which provably converges in $\mathcal{O}(\frac{1}{t^2})$. In terms of Lyapunov arguments, the hard work has already been done for us in expressing it as a second-order ODE (\cite{su2014differential}), so by choosing the proper Lyapunov function $\mathcal{E}(t)=\frac{t^{2}}{r}(f(X)-\left.f^{\star}\right)+\frac{r}{2}\left\|X+\frac{t}{r} \dot{X}-x^{\star}\right\|^{2}$, one can prove convergence in $\mathcal{O}(\frac{1}{t^2})$. However, this Lyapunov function is only defined for the Euclidean norm.\\
+
+We can now appreciate the gap this paper is trying to bridge. (\cite{su2014differential}) only talks about the ODE formulation of Nesterov's accelerated method in the Euclidean space. Therefore, this paper takes that one step further, by extending the ODE formulation of Nesterov's accelerated method to the general space of Bregman Divergences with mirror descent. Notably, the only thing that changed between the two papers is the continuous time formulation, since the discretization technique in them is identical.\\
+
+
+%This link also goes with the reference below---https://www.cs.uic.edu/~zhangx/teaching/bregman.pdf
+%Before we dive into the core analysis of this paper, we quickly bring insight to something we omitted in the previous sections---there is a reason that $\psi^{*}(Z)$ and $\nabla \psi^{*}(Z)$ is defined as so. Due to a famous result that one can find in references like (\cite{harvey2018machine}), $\left(\nabla \psi^{*}\right)(\nabla \psi(x))=x$. This is one elegant property of dual functions, with much reminiscence of $x^{\star \star} = x$\\
+
+
+We define the assumptions here. This paper assumes $\psi^{\star}$ is L-smooth. For function f to be L-smooth wrt a reference norm $\|\cdot\|_{*}$, we must have $D_{f}(z, y) \leq \frac{L}{2}\|z-y\|_{*}^{2}$. Referred to in papers like (\cite{allen2014linear}), L-smooth is also defined for a function f as $\|\nabla f(x)-\nabla f(y)\|_{*} \leq L\|x-y\|$. It is worth noting that this is equivalent to our inverse mapping function $\nabla \psi^{\star}$ being L-Lipschitz.
+%The definition of L-strongly-convex is $D_{\psi}^{*}(z, y) \geq \frac{\ell}{2}\|z-y\|_{*}^{2}$\\
+
+
+%The interpretation of this ODE as "gradient weight accumulation" and r as "weight control" parameter is interesting to look at
+The desired lyapunov function is $V(X(t), Z(t), t)=\frac{t^{2}}{r}\left(f(X(t))-f^{\star}\right)+r D_{\psi^{*}}\left(Z(t), z^{\star}\right)$. With the same computation as before, we would have the proposed ODE system
+$$
+\left\{\begin{array}{l}
+\dot{X}=\frac{r}{t}\left(\nabla \psi^{*}(Z)-X\right) \\
+\dot{Z}=-\frac{t}{r} \nabla f(X) \\
+X(0)=x_{0}, Z(0)=z_{0}, \text { with } \nabla \psi^{*}\left(z_{0}\right)=x_{0}
+\end{array}\right.
+$$
+In terms of Euclidean norm, taking $\psi^{*}(z)=\frac{1}{2}\|z\|^{2},$ we have $\nabla \psi^{*}(z)=z,$ thus $Z=$ $X+\frac{t}{r} \dot{X},$ and the ODE system is equivalent to $\frac{d}{d t}\left(X+\frac{t}{r} \dot{X}\right)=-\frac{t}{r} \nabla f(X),$ which is equivalent to the ODE (2) studied in (\cite{su2014differential}), which we recover as a special case.\\
+
+%The paper proves existence of the above ODE solutions by using two theorems, but then proves convergence rate
+It is now straightforward to establish the convergence rate of the solution.\\
+Theorem 2. Suppose that $f$ has Lipschitz gradient, and that $\psi^{*}$ is a smooth distance generating function. Let $(X(t), Z(t))$ be the solution to the accelerated mirror descent ODE (5) with $r \geq 2$ Then for all $t>0, f(X(t))-f^{\star} \leq \frac{r^{2} D_{\psi^{*}}\left(z_{0}, z^{\star}\right)}{t^{2}}$\\
+Proof. By construction of the ODE, $V(X(t), Z(t), t)=\frac{t^{2}}{r}\left(f(X(t))-f^{\star}\right)+r D_{\psi^{*}}\left(Z(t), z^{\star}\right)$ is
+a Lyapunov function. It follows that for all $t>0, \frac{t^{2}}{r}\left(f(X(t))-f^{\star}\right) \leq V(X(t), Z(t), t) \leq$ $V\left(x_{0}, z_{0}, 0\right)=r D_{\psi^{*}}\left(z_{0}, z^{\star}\right)$\\
+
+We then discretize the mirror descent system for more general applications. We proceed with the following "mixed forward-backward Euler scheme", by taking a step size of $\sqrt{s}$, letting $t_{k}=k \sqrt{s}$, and defining $x^{(k)} = X\left(t_{k}\right)=X(k \sqrt{s})$ (expanding on the discussion of discretization, one can refer to \cite{xu2018accelerated} for 3 different discretization techniques, applicable to deterministic and stochastic mirror descent):\\
+
+Algorithm 1 Accelerated mirror descent with distance generating function $\psi^{*},$ regularizer $R,$ step size $s$, and parameter $r \geq 3$\\
+1: Initialize $\tilde{x}^{(0)}=x_{0}, \tilde{z}^{(0)}=x_{0},\left(\right.$ or $\left.z^{(0)} \in(\nabla \psi)^{-1}\left(x_{0}\right)\right)$\\
+2: for $k \in \mathbb{N}$ do\\
+$3: \quad x^{(k+1)}=\lambda_{k} \tilde{z}^{(k)}+\left(1-\lambda_{k}\right) \tilde{x}^{(k)},$ with $\lambda_{k}=\frac{r}{r+k}$\\
+$4: \quad \tilde{z}^{(k+1)}=\arg \min _{\tilde{z} \in \mathcal{X}} \frac{k s}{r}\left\langle\nabla f\left(x^{(k+1)}\right), \tilde{z}\right\rangle+D_{\psi}\left(\tilde{z}, \tilde{z}^{(k)}\right)$\\
+(If $\psi$ is non-differentiable, $z^{(k+1)}=z^{(k)}-\frac{k r}{s} \nabla f\left(x^{(k+1)}\right)$ and $\left.\tilde{z}^{(k+1)}=\nabla \psi^{*}\left(z^{(k+1)}\right) .\right)$\\
+5: $\quad \tilde{x}^{(k+1)}=\arg \min _{\tilde{x} \in \mathcal{X}} \gamma s\left\langle\nabla f\left(x^{(k+1)}\right), \tilde{x}\right\rangle+R\left(\tilde{x}, x^{(k+1)}\right)$\\
+
+Theorem 3. The discrete-time accelerated mirror descent Algorithm 1 with parameter $r \geq 3$ and step sizes $\gamma \geq L_{R} L_{\psi^{*}}, s \leq \frac{\ell_{R}}{2 L_{f} \gamma},$ guarantees that for all $k>0$
+$$
+f\left(\tilde{x}^{(k))}\right)-f^{\star} \leq \frac{r}{s k^{2}} \tilde{E}^{(1)} \leq \frac{r^{2} D_{\psi^{*}}\left(z_{0}, z^{\star}\right)}{s k^{2}}+\frac{f\left(x_{0}\right)-f^{\star}}{k^{2}}
+$$\\
+
+The paper also provides an example using KL-divergence. However, it breezes through the procedure with hasty references.\\
+
+As a conclusion, we have given a gentle introduction to gradient descent and mirror descent in its Lyapunov formulation. Further investigation into the nature of Lyapunov arguments and Nesterov's accelerated method is required in order to better understand the details of this paper.
+
+\bibliography{references}
+\bibliographystyle{plainnat}
+\end{document}
+
+%A couple more papers that could be interesting for reference
+%http://www.mit.edu/~dimitrib/PTseng/papers/apgm.pdf
+%https://arxiv.org/pdf/1507.01367.pdf
+%https://www.jmlr.org/papers/volume6/banerjee05b/banerjee05b.pdf
