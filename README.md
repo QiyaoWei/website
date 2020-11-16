@@ -9,7 +9,7 @@ Hi there! You found my webpage! This is Qiyao (chi-yao), a University of Toronto
 
 ## Publications
 
-- Here is a technical report on mirror descent, Bregman Divergences, and an analysis on Krichene and Bartlett (2017)
+- [Here](https://github.com/QiyaoWei/wqy.github.io/blob/master/Qiyao's%20Mirror%20Descent%20Report.pdf) is a technical report on mirror descent, Bregman Divergences, and an analysis on Krichene and Bartlett (2017)
 - Epidemic Control with Reinforcement Learning, only single-node for now
 
 ## Favorite Readings
@@ -31,6 +31,8 @@ There are also beautiful words that are not AI related.
 
 - The Great Gatsby and his "extraordinary gift of hope"
 
+
+<!---
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
@@ -62,3 +64,4 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 ### Support or Contact
 
 Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+-->
