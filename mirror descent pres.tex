@@ -1,0 +1,248 @@
+\documentclass[english]{beamer}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amssymb}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{Warsaw}
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title[]{Technical Report on Mirror Descent, Bregman Divergence, and Their ODE Formulations}
+\author[]{Qiyao Wei}
+\subtitle{Walid   Krichene,   Alexandre   Bayen,   and   Peter   LBartlett.  Accelerated mirror descent in continuous and discrete time.}
+%\author[Author, Another]{F.~Author\inst{1} \and S.~Another\inst{2}}
+%\institute[Universities of Somewhere and %Elsewhere]{\inst{1}Department of Computer Science\\
+%University of Somewhere\and \inst{2}Department of Theoretical %Philosophy\\
+%University of Elsewhere}
+%\date[CFP 2003]{Conference on Fabulous Presentations, 2003}
+
+\makebeamertitle
+
+%\pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+%\logo{\pgfuseimage{institution-logo}}
+
+\AtBeginSubsection[]{%
+  \frame<beamer>{ 
+    \frametitle{Outline}   
+    \tableofcontents[currentsection,currentsubsection] 
+  }
+}
+
+%\beamerdefaultoverlayspecification{<+->}
+\begin{frame}{Outline}
+
+\tableofcontents{}
+
+\end{frame}
+
+\section{Background}
+
+\subsection[Gradient Descent and Mirror descent]{Gradient Descent and Mirror descent}
+\begin{frame}{Recap of vanilla gradient descent}
+
+%\framesubtitle{Frame subtitles are optional. Use upper- or lowercase letters.}
+\begin{itemize}
+\item<1-> Convex function $f:  \mathbb{R}^{n}\mapsto \mathbb{R}$
+
+\item<2-> differentiable and L-Lipschitz, i.e. $\|f(x) - f(y)\| \leq L(x - y)$
+
+\item<3-> \begin{equation*}
+    f\left(\frac{1}{T} \sum_{i=0}^{T-1} x_{i}\right)-f\left(x^{*}\right) \leq \frac{R L}{\sqrt{T}}
+\end{equation*}
+
+
+\end{itemize}
+\end{frame}
+%
+\begin{frame}{Recap of Bregman Divergence}
+\begin{itemize}
+\item \begin{equation*}
+    D_{\Phi}(a, b)=\Phi(a)-(\Phi(b)+\nabla \Phi(b) \cdot(a-b))
+\end{equation*}
+\pause{}
+
+\item Interactive demo: http://mark.reid.name/blog/meet-the-bregman-divergences.html
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fundamental assumptions}
+\begin{block}<1->{}
+\begin{itemize}
+\item $f$ being L-Lipschitz places a constraint on the gradient of $f$
+\item Gradient and mirror descent converges in $\mathcal{O}(\frac{1}{t^{1/2}})$
+\end{itemize}
+\end{block}
+
+\begin{block}<2->{}
+\begin{itemize}
+\item $f$ is normally constrained on the gradient of its gradient, i.e. $\nabla f$ being L-Lipschitz, or $$\|\nabla f(x) - \nabla f(y)\| \leq L(x - y)$$
+\item This achieves $\mathcal{O}(\frac{1}{t})$, as we will see in the ODE paper
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\subsection{Previous Work}
+\begin{frame}{Work Leading up to This Paper}
+\begin{itemize}
+\item<1-> Su et al.(2014)Su, Boyd, and Candes expressed Nesterov's accelerated method using discretized ODEs
+
+\item<2-> Allen-Zhu and Orecchia(2014) interprets Nesterov's accelerated method with mirror descent and generalized divergence
+\end{itemize}
+\end{frame}
+
+\section{Contribution of the ODE Paper}
+
+\subsection{A Simple Example}
+\begin{frame}{Simple ODE and Lyapunov example}
+\begin{itemize}
+\item Vanilla gradient descent $x^{(k+1)}=x^{(k)}-s \nabla f\left(x^{(k)}\right)$ with a step size s can be rephrased as $\dot{X}(t)=-\nabla f(X(t))$ with discretization step s
+\pause{}
+
+\item Taking the time derivative of Lyapunov function $V(X(t))=\frac{1}{2}\left\|X(t)-x^{\star}\right\|^{2}$ gives convergence rate $\mathcal{O}(1 / t)$, under the Lipschitz restriction on $\nabla f$
+\pause{}
+
+\item The mirror descent ODE formulation is a generalization, when we replace the Euclidean distance with the Bregman Divergence function
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Simple ODE and Lyapunov example---continued}
+\begin{block}{}
+We use $\mathbb{E}$ to denote the primal space $\mathbb{R}^{n}$, and $\mathbb{E^{\star}}$ to denote the dual space. In this case, we replace the original Lyapunov $V(X(t))=\frac{1}{2}\left\|X(t)-x^{\star}\right\|^{2}$ by a function on the dual space $V(Z(t))=D_{\psi^{*}}\left(Z(t), z^{\star}\right)$, where $Z(t) \in \mathbb{E^{\star}}$ corresponds to $X(t) \in \mathbb{E}$, and $\psi^{*}$ is a convex function defined on $\mathbb{E^{\star}}$ such that $\nabla \psi^{*}: \mathbb{E^{\star}}\mapsto \mathbb{E}$. Here the Bregman Divergence is defined as $D_{\psi^{*}}\left(Z(t), z^{\star}\right) = \psi^{*}(Z(t))-(\psi^{*}(z^{\star})+\nabla \psi^{*}(z^{\star}) \cdot(Z(t)-z^{\star}))$.
+\end{block}
+
+\begin{block}{}
+\begin{equation*}
+    \left\{\begin{array}{l}
+    X=\nabla \psi^{*}(Z) \\
+    \dot{Z}=-\nabla f(X) \\
+    X(0)=x_{0}, Z(0)=z_{0} \text { with } \nabla \psi^{*}\left(z_{0}\right)=x_{0}
+    \end{array}\right.
+\end{equation*}
+\end{block}
+\end{frame}
+
+\subsection{Main Results}
+\begin{frame}{ODE Formulation of Nesterov's Accelerated Method in Bregman Divergence}
+\framesubtitle{Combines Su et al.(2014)Su, Boyd, and Candes and Allen-Zhu and Orecchia(2014)}
+\begin{block}{}
+The desired lyapunov function is $V(X(t), Z(t), t)=\frac{t^{2}}{r}\left(f(X(t))-f^{\star}\right)+r D_{\psi^{*}}\left(Z(t), z^{\star}\right)$. This gives us the proposed ODE system
+$$
+\left\{\begin{array}{l}
+\dot{X}=\frac{r}{t}\left(\nabla \psi^{*}(Z)-X\right) \\
+\dot{Z}=-\frac{t}{r} \nabla f(X) \\
+X(0)=x_{0}, Z(0)=z_{0}, \text { with } \nabla \psi^{*}\left(z_{0}\right)=x_{0}
+\end{array}\right.
+$$
+\end{block}
+\end{frame}
+
+\begin{frame}{ODE Formulation of Nesterov's Accelerated Method in Bregman Divergence---continued}
+\framesubtitle{Combines Su et al.(2014)Su, Boyd, and Candes and Allen-Zhu and Orecchia(2014)}
+\begin{theorem}
+Suppose that $f$ has Lipschitz gradient, and that $\psi^{*}$ is a smooth distance generating function. Let $(X(t), Z(t))$ be the unique solution to the accelerated mirror descent ODE with $r \geq 2$ Then for all $t>0, f(X(t))-f^{\star} \leq \frac{r^{2} D_{\psi^{*}}\left(z_{0}, z^{\star}\right)}{t^{2}}$
+\end{theorem}
+\end{frame}
+
+
+\subsection{Basic Ideas for Proofs/Implementations}
+
+\begin{frame}{Proof Idea of Solution and Convergence}
+\begin{itemize}
+\item<1-> Obtain a smoothed form of the ODE by replacing $t$ with $\max (t, \delta)$
+
+\item<2-> Prove convergence of smoothed ODE to original ODE with Arzela-Ascoli Theorem, then Cauchy-Lipschitz Theorem guarantees existent and unique solution
+
+\item<3-> By construction of the Lyapunov function
+\end{itemize}
+\end{frame}
+
+\section*{Summary}
+\begin{frame}{Summary}
+\begin{itemize}
+\item We looked at the convergence rate of gradient and mirror descent under different assumptions
+\item We looked at the ODE formulation of Nesterov's accelerated method in Bregman divergence and its convergence properties
+\end{itemize}
+\medskip{}
+
+%\alert{first main message}
+\end{frame}
+
+\appendix
+
+\section*{Appendix}
+
+\subsection*{For Further Reading}
+\begin{frame}[allowframebreaks]{For Further Reading}
+
+
+\beamertemplatebookbibitems
+% Use bibtex if necessary
+\begin{thebibliography}{1}
+\bibitem{Xu} 
+Pan  Xu,  Tianhao  Wang,  and  Quanquan  Gu. 
+%\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
+[\textit{Accelerated  stochasticmirror descent:  From continuous-time dynamics to discrete-time algorithms}]. 
+In International Conference on Artificial Intelligence and Statistics, pages 1087 to 1096, 2018.
+
+\bibitem{Jin} 
+Yujia Jin and Aaron Sidford. 
+%\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
+[\textit{Efficiently solving mdps with stochastic mirror descent}]. 
+arXiv preprint arXiv:2008.12776, 2020.
+
+
+\end{thebibliography}
+\end{frame}
+
+\end{document}
+
+
+% \pause{}
+% \begin{corollary}
+% On second slide.
+% \end{corollary}
+
+
+%
+% \begin{frame}{Make Titles Informative. }
+% \begin{columns}[t]
+
+% \column{5cm}
+% \begin{theorem}<1->
+% In left column.
+% \end{theorem}
+
+
+% \column{5cm}
+% \begin{corollary}<2->
+% In right column.\\
+% New line
+% \end{corollary}
+
+% \end{columns}
+
+% \end{frame}
