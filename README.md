@@ -7,10 +7,10 @@ Reach me at q.wei@mail.utoronto.ca
 
 Hi there! You found my webpage! This is Qiyao (chi-yao), a University of Toronto undergrad inspired by the advances and accomplishments of Artificial Intelligence. My short-term research interest is to make AI more about theory and justification, rather than network design and hyperparameter tuning. My long-term goal is to crack the code of human intelligence, or to achieve human-level intelligence in our machines.
 
-## Publications
+## Publications and Presentations
 
-- [Here](https://github.com/QiyaoWei/wqy.github.io/blob/master/Qiyao's%20Mirror%20Descent%20Report.pdf) is a technical report on mirror descent, Bregman Divergences, and an analysis on Krichene and Bartlett (2017)
-- Epidemic Control with Reinforcement Learning, only single-node for [now](https://github.com/QiyaoWei/wqy.github.io/blob/master/Epidemic_Control_with_Reinforcement_Learning_Project_Report.pdf)
+- [Here](https://github.com/QiyaoWei/wqy.github.io/blob/master/Qiyao's%20Mirror%20Descent%20Report.pdf) is a technical report on mirror descent, Bregman Divergences, and an analysis on Krichene and Bartlett (2017). [Here](https://github.com/QiyaoWei/website/blob/master/Mirror_Descent_Presentation.pdf) is a presentation I gave to Professor Yinyu Ye at Stanford on this paper.
+- Epidemic Control with Reinforcement Learning, only single-node for [now](https://github.com/QiyaoWei/wqy.github.io/blob/master/Epidemic_Control_with_Reinforcement_Learning_Project_Report.pdf). [Here](https://github.com/QiyaoWei/website/blob/master/RLpres.pdf) is a presentation I gave to our research group at Vector.
 
 ## Favorite Readings
 This is where I put some of the articles or papers I read, and will recommend to others. Specifically, they will either convey some inspiration that I could not have summarized better, or illustrated a theory very clearly
