@@ -31,6 +31,10 @@ There are also beautiful words that are not AI related.
 
 - The Great Gatsby and his "extraordinary gift of hope"
 
+## What if I am just getting started?
+
+- [Here](https://arxiv.org/pdf/1506.00019.pdf) is a nice introductory paper about MLPs and RNNs
+
 
 <!---
 ### Markdown
