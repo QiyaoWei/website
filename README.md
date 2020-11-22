@@ -17,7 +17,7 @@ This is where I put some of the articles or papers I read, and will recommend to
 
 - Ever wondered where all the reparametrization in Stochastic Variational Inference came [from?](http://blog.shakirm.com/2015/10/machine-learning-trick-of-the-day-4-reparameterisation-tricks/)
 - In my opinion, the epitome of combining theory and practice: how machine learning should be done. [Variational Bayes](https://arxiv.org/abs/1312.6114)
-- Cute papers. [Distillation](https://arxiv.org/pdf/1503.02531.pdf), [Rank AE](https://arxiv.org/pdf/2010.00679.pdf), [ReLU bottleneck](https://arxiv.org/pdf/1801.04381.pdf)
+- Cute papers. [Distillation](https://arxiv.org/pdf/1503.02531.pdf), [Rank AE](https://arxiv.org/pdf/2010.00679.pdf), [ReLU bottleneck](https://arxiv.org/pdf/1801.04381.pdf), [NIPS experiment](http://blog.mrtz.org/2014/12/15/the-nips-experiment.html)
 
 ## Favorite quotes
 This is where I record some of the best (i.e. pithy but elucidating) words I came across. For a total stranger, they will require context to make sense. I always welcome discussions of stuff like this.
