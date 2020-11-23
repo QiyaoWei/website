@@ -35,6 +35,7 @@ There are also beautiful words that are not AI related.
 
 - [Here](https://arxiv.org/pdf/1506.00019.pdf) is a nice introductory paper about MLPs and RNNs
 - [Here](http://rail.eecs.berkeley.edu/deeprlcourse/) is my favorite deep reinforcement learning course. A word of caution about videos---come to them with questions and learning will go smoothly, if watched without active learning then not much can be recalled
+- [Here](https://www.inference.vc/neural-tangent-kernels-some-intuition-for-kernel-gradient-descent/) is a great introductory post on NTK, and one of my favorites blogs as well
 
 
 <!---
