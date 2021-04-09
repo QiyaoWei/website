@@ -30,6 +30,7 @@ This is where I record some of the best (i.e. pithy but elucidating) words I cam
 There are also beautiful words that are not AI related.
 
 - The Great Gatsby and his "extraordinary gift of hope"
+- [Top secret](https://github.com/QiyaoWei/website/blob/master/Failed%20Experiments)
 
 ## What if I am just getting started?
 
